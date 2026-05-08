@@ -52,7 +52,6 @@
         min-height: 300px;
     }
     
-    /* Wave 1 - Fast moving */
     .wave-1 {
         animation: waveFlow1 6s ease-in-out infinite;
         transform-origin: center;
@@ -65,7 +64,6 @@
         100% { transform: translateX(0) translateY(0); }
     }
     
-    /* Wave 2 - Medium moving (opposite direction) */
     .wave-2 {
         animation: waveFlow2 8s ease-in-out infinite;
         transform-origin: center;
@@ -78,7 +76,6 @@
         100% { transform: translateX(0) translateY(0); }
     }
     
-    /* Wave 3 - Slow moving */
     .wave-3 {
         animation: waveFlow3 12s ease-in-out infinite;
         transform-origin: center;
@@ -90,7 +87,6 @@
         100% { transform: translateX(0) translateY(0); }
     }
     
-    /* Subtle particle overlay */
     .water-particle {
         position: absolute;
         bottom: 0;
@@ -134,7 +130,6 @@
     <!-- Hero Section after navigation with Enhanced Wave Effect -->
     <div class="relative bg-gradient-to-r from-accent to-accent/80 text-white overflow-hidden min-h-[50vh] flex items-center">
         
-        <!-- Water/Wave SVG Background -->
         <div class="wave-bg">
             <svg class="wave-1" viewBox="0 0 1440 320" preserveAspectRatio="none">
                 <path fill="#DC2626" fill-opacity="0.25" d="M0,256L48,245.3C96,235,192,213,288,208C384,203,480,213,576,218.7C672,224,768,224,864,213.3C960,203,1056,181,1152,176C1248,171,1344,181,1392,186.7L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
@@ -186,11 +181,11 @@
                     </div>
                 </div>
 
-                <!-- Right: latest news image OR placeholder -->
+                <!-- Right: latest news image -->
                 <div class="lg:col-span-6">
                     <div class="flex justify-center lg:justify-end">
                         @if($newsPosts && $newsPosts->count() > 0 && $newsPosts->first()->image)
-                            <img src="{{ asset('storage/' . $newsPosts->first()->image) }}"
+                            <img src="{{ $newsPosts->first()->image }}"
                                  alt="{{ $newsPosts->first()->title }}"
                                  class="w-full max-w-[280px] sm:max-w-[320px] md:max-w-[360px] lg:max-w-[390px] h-auto rounded-[2rem] object-cover shadow-2xl shadow-accent/10">
                         @else
@@ -213,7 +208,7 @@
         </div>
     </header>
 
-    <!-- News Posts Grid — only shows when posts exist -->
+    <!-- News Posts Grid -->
     @if($newsPosts && $newsPosts->count() > 0)
     <section class="py-20 md:py-32 bg-surface">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
@@ -223,9 +218,8 @@
                 <article class="bg-white rounded-[2.5rem] overflow-hidden shadow-lg shadow-accent/5 hover:shadow-xl hover:shadow-accent/10 hover:-translate-y-1 transition-all duration-300 scroll-reveal scale-in flex flex-col">
 
                     @if($post->image)
-                    {{-- No aspect-ratio, no fixed height, no overflow:hidden — image shows in full --}}
                     <div class="news-card-img-wrap rounded-t-[2.5rem] overflow-hidden shrink-0">
-                        <img src="{{ asset('storage/' . $post->image) }}"
+                        <img src="{{ $post->image }}"
                              alt="{{ $post->title }}"
                              class="w-full h-auto block hover:scale-105 transition-transform duration-700">
                     </div>

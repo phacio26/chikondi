@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\SiteSetting;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Cloudinary\Cloudinary;
 
 class SettingsController extends Controller
 {
@@ -33,14 +33,8 @@ class SettingsController extends Controller
 
         // Handle text settings
         $textSettings = [
-            'phone_number',
-            'email',
-            'bank_name',
-            'account_name',
-            'account_number',
-            'branch',
-            'bank_details',
-            'news_coming_soon_text',
+            'phone_number', 'email', 'bank_name', 'account_name',
+            'account_number', 'branch', 'bank_details', 'news_coming_soon_text',
         ];
 
         foreach ($textSettings as $key) {
@@ -49,17 +43,24 @@ class SettingsController extends Controller
             }
         }
 
-        // Handle image uploads
+        // Handle image uploads via Cloudinary
+        $cloudinary = new Cloudinary([
+            'cloud' => [
+                'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+                'api_key'    => env('CLOUDINARY_API_KEY'),
+                'api_secret' => env('CLOUDINARY_API_SECRET'),
+            ]
+        ]);
+
         $imageSettings = ['logo', 'hero_image', 'mother_child_image'];
 
         foreach ($imageSettings as $key) {
             if ($request->hasFile($key)) {
-                $existing = SiteSetting::get($key);
-                if ($existing) {
-                    Storage::disk('public')->delete($existing);
-                }
-                $path = $request->file($key)->store($key, 'public');
-                SiteSetting::set($key, $path);
+                $uploaded = $cloudinary->uploadApi()->upload(
+                    $request->file($key)->getRealPath(),
+                    ['folder' => 'chikondi/' . $key]
+                );
+                SiteSetting::set($key, $uploaded['secure_url']);
             }
         }
 

@@ -104,13 +104,13 @@
     <!-- Narrative Hero Section -->
     <header class="relative min-h-[78vh] sm:min-h-[90vh] md:min-h-screen overflow-hidden bg-white">
         <div class="absolute inset-0 z-0">
-            <img src="{{ asset('storage/' . App\Models\SiteSetting::get('hero_image', 'images/home-hero-section.png')) }}"
+            <img src="{{ App\Models\SiteSetting::get('hero_image', asset('images/home-hero-section.png')) }}"
                  alt="Chikondi - Malawian Healthcare"
                  class="w-full h-full object-cover animate-slow-zoom">
             <div class="absolute inset-0 hero-vignette"></div>
         </div>
         <div class="hero-logo-lockup reveal-text pointer-events-none" style="animation-delay: 0.3s">
-            <img src="{{ asset('storage/' . App\Models\SiteSetting::get('logo', 'images/logo.png')) }}" alt="Chikondi Logo" class="h-auto">
+            <img src="{{ App\Models\SiteSetting::get('logo', asset('images/logo.png')) }}" alt="Chikondi Logo" class="h-auto">
         </div>
     </header>
 
@@ -148,7 +148,7 @@
 
                 <div class="lg:col-span-6 relative pb-20 md:pb-0 scroll-reveal from-right">
                     <div class="relative rounded-[2rem] md:rounded-[3.5rem] overflow-hidden shadow-2xl">
-                        <img src="{{ asset('storage/' . App\Models\SiteSetting::get('mother_child_image', 'images/mother-joy-malawi.png')) }}"
+                        <img src="{{ App\Models\SiteSetting::get('mother_child_image', asset('images/mother-joy-malawi.png')) }}"
                              alt="Malawian Mother and child"
                              class="w-full h-[420px] sm:h-[520px] md:h-[600px] object-cover hover:scale-105 transition-transform duration-1000">
                         <div class="absolute inset-0 bg-gradient-to-t from-accent/40 to-transparent"></div>
@@ -189,8 +189,8 @@
                     </p>
                     <div class="flex">
                         <a href="{{ route('progress') }}" class="w-full sm:w-auto text-center px-8 py-4 bg-white text-accent font-black text-xs uppercase tracking-widest rounded-xl hover:bg-brand hover:text-white transition-all">
-                     View Progress
-</a>
+                            View Progress
+                        </a>
                     </div>
                 </div>
             </div>

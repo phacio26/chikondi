@@ -34,7 +34,7 @@
                         <th class="text-left px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-accent/30">Status</th>
                         <th class="text-left px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-accent/30">Date</th>
                         <th class="text-left px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-accent/30">Actions</th>
-                    </tr>
+                    <tr>
                 </thead>
                 <tbody>
                     @foreach($posts as $post)
@@ -42,7 +42,7 @@
                             <td class="px-6 py-5">
                                 <div class="flex items-center gap-4">
                                     @if($post->image)
-                                        <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}" class="w-12 h-12 rounded-xl object-cover">
+                                        <img src="{{ $post->image }}" alt="{{ $post->title }}" class="w-12 h-12 rounded-xl object-cover">
                                     @else
                                         <div class="w-12 h-12 rounded-xl bg-brand/10 flex items-center justify-center">
                                             <svg class="w-6 h-6 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -72,7 +72,7 @@
                                     <form method="POST" action="{{ route('admin.news.destroy', $post) }}" class="inline" id="delete-form-{{ $post->id }}">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="button" onclick="confirmDelete(null, 'Delete this news post? This action cannot be undone.', document.getElementById('delete-form-{{ $post->id }}'))" class="text-[10px] font-black uppercase tracking-widest text-brand hover:text-accent transition-all">
+                                        <button type="button" onclick="confirmDelete('Delete this news post? This action cannot be undone.', document.getElementById('delete-form-{{ $post->id }}'))" class="text-[10px] font-black uppercase tracking-widest text-brand hover:text-accent transition-all">
                                             Delete
                                         </button>
                                     </form>
