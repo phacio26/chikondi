@@ -51,14 +51,12 @@
             scroll-behavior: smooth;
             overflow-x: hidden;
         }
-
         .image-wrapper {
             display: flex;
             justify-content: center;
             align-items: center;
             width: 100%;
         }
-
         .image-wrapper img {
             width: auto;
             max-width: 100%;
@@ -66,12 +64,10 @@
             max-height: 600px;
             object-fit: contain;
         }
-
         .news-card-image {
             width: 100%;
             overflow: visible;
         }
-
         .news-card-image img {
             width: 100%;
             height: auto;
@@ -79,7 +75,6 @@
             display: block;
             object-fit: contain;
         }
-
         .hero-image-wrapper {
             width: 100%;
             display: flex;
@@ -87,24 +82,20 @@
             align-items: center;
             overflow: hidden;
         }
-
         .hero-image-wrapper img {
             width: 100%;
             height: auto;
             display: block;
         }
-
         .flex-image {
             width: 100%;
             height: auto;
             display: block;
             object-fit: contain;
         }
-
         .no-aspect {
             aspect-ratio: auto !important;
         }
-
         @media (max-width: 768px) {
             .image-wrapper img {
                 max-height: 400px;
@@ -159,9 +150,9 @@
     <!-- Footer -->
     <footer class="bg-accent py-10 text-white overflow-hidden relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
-            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+            <div class="flex flex-row items-start justify-between gap-8">
 
-                <!-- Links first on mobile -->
+                <!-- Links - Left -->
                 <div class="flex flex-col gap-4 text-xs font-bold uppercase tracking-[0.2em]">
                     <a href="{{ route('home') }}" class="text-white/50 hover:text-brand transition-colors">Home</a>
                     <a href="{{ route('news') }}" class="text-white/50 hover:text-brand transition-colors">News</a>
@@ -169,10 +160,10 @@
                     <a href="{{ route('contact') }}" class="text-white/50 hover:text-brand transition-colors">Contact</a>
                 </div>
 
-                <!-- Logo + copyright below links on mobile, right side on desktop -->
-                <div class="flex flex-col gap-4">
+                <!-- Logo & Copyright - Right -->
+                <div class="flex flex-col items-end gap-4">
                     <img src="{{ SiteSetting::get('logo', asset('images/logo.png')) }}" alt="Chikondi Logo" class="h-24 sm:h-28 md:h-32 w-auto object-contain">
-                    <p class="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">
+                    <p class="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] text-right">
                         &copy; 2026 Chikondi Organisation. All Rights Reserved.
                     </p>
                 </div>
