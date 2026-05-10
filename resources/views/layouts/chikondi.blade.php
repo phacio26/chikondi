@@ -159,20 +159,22 @@
     <!-- Footer -->
     <footer class="bg-accent py-10 text-white overflow-hidden relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
-            <div class="flex flex-col-reverse md:flex-row items-start md:items-center justify-between gap-8">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
 
-                <div class="flex flex-col gap-4">
-                    <img src="{{ SiteSetting::get('logo', asset('images/logo.png')) }}" alt="Chikondi Logo" class="h-24 sm:h-28 md:h-32 w-auto object-contain">
-                    <p class="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">
-                        &copy; 2026 Chikondi Organisation. All Rights Reserved.
-                    </p>
-                </div>
-
+                <!-- Links first on mobile -->
                 <div class="flex flex-col gap-4 text-xs font-bold uppercase tracking-[0.2em]">
                     <a href="{{ route('home') }}" class="text-white/50 hover:text-brand transition-colors">Home</a>
                     <a href="{{ route('news') }}" class="text-white/50 hover:text-brand transition-colors">News</a>
                     <a href="{{ route('donate') }}" class="text-white/50 hover:text-brand transition-colors">Donate</a>
                     <a href="{{ route('contact') }}" class="text-white/50 hover:text-brand transition-colors">Contact</a>
+                </div>
+
+                <!-- Logo + copyright below links on mobile, right side on desktop -->
+                <div class="flex flex-col gap-4">
+                    <img src="{{ SiteSetting::get('logo', asset('images/logo.png')) }}" alt="Chikondi Logo" class="h-24 sm:h-28 md:h-32 w-auto object-contain">
+                    <p class="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">
+                        &copy; 2026 Chikondi Organisation. All Rights Reserved.
+                    </p>
                 </div>
 
             </div>
