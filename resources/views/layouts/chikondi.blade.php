@@ -52,7 +52,6 @@
             overflow-x: hidden;
         }
 
-        /* Dynamic image containers - container fits the image size */
         .image-wrapper {
             display: flex;
             justify-content: center;
@@ -68,7 +67,6 @@
             object-fit: contain;
         }
 
-        /* For news grid - images are NEVER cropped */
         .news-card-image {
             width: 100%;
             overflow: visible;
@@ -82,7 +80,6 @@
             object-fit: contain;
         }
 
-        /* For hero banner - full width with aspect ratio preserved */
         .hero-image-wrapper {
             width: 100%;
             display: flex;
@@ -97,7 +94,6 @@
             display: block;
         }
 
-        /* For side by side images */
         .flex-image {
             width: 100%;
             height: auto;
@@ -105,7 +101,6 @@
             object-fit: contain;
         }
 
-        /* Remove forced aspect ratios */
         .no-aspect {
             aspect-ratio: auto !important;
         }
@@ -164,7 +159,7 @@
     <!-- Footer -->
     <footer class="bg-accent py-10 text-white overflow-hidden relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
-            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+            <div class="flex flex-col-reverse md:flex-row items-start md:items-center justify-between gap-8">
 
                 <div class="flex flex-col gap-4">
                     <img src="{{ SiteSetting::get('logo', asset('images/logo.png')) }}" alt="Chikondi Logo" class="h-24 sm:h-28 md:h-32 w-auto object-contain">

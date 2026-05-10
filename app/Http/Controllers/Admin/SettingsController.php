@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\SiteSetting;
 use Illuminate\Http\Request;
-use Cloudinary\Cloudinary;
 
 class SettingsController extends Controller
 {
@@ -17,6 +16,8 @@ class SettingsController extends Controller
 
     public function update(Request $request)
     {
+        set_time_limit(300);
+        
         $request->validate([
             'phone_number'          => 'nullable|string|max:20',
             'email'                 => 'nullable|email|max:100',
@@ -26,7 +27,7 @@ class SettingsController extends Controller
             'branch'                => 'nullable|string|max:100',
             'bank_details'          => 'nullable|string|max:255',
             'news_coming_soon_text' => 'nullable|string|max:500',
-            'logo'                  => 'nullable|image|max:2048',
+            'logo'                  => 'nullable|image|max:20480',
             'hero_image'            => 'nullable|image|max:20480',
             'mother_child_image'    => 'nullable|image|max:20480',
         ]);
@@ -43,24 +44,46 @@ class SettingsController extends Controller
             }
         }
 
-        // Handle image uploads via Cloudinary
-        $cloudinary = new Cloudinary([
-            'cloud' => [
-                'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
-                'api_key'    => env('CLOUDINARY_API_KEY'),
-                'api_secret' => env('CLOUDINARY_API_SECRET'),
-            ]
-        ]);
+        // Cloudinary credentials
+        $cloudName = 'dtayyciom';
+        $apiKey = '616976622426686';
+        $uploadPreset = 'chikondi_preset'; // CHANGE THIS to your new preset name
 
         $imageSettings = ['logo', 'hero_image', 'mother_child_image'];
 
         foreach ($imageSettings as $key) {
             if ($request->hasFile($key)) {
-                $uploaded = $cloudinary->uploadApi()->upload(
-                    $request->file($key)->getRealPath(),
-                    ['folder' => 'chikondi/' . $key]
-                );
-                SiteSetting::set($key, $uploaded['secure_url']);
+                $file = $request->file($key);
+                
+                // Upload to Cloudinary using cURL
+                $url = "https://api.cloudinary.com/v1_1/{$cloudName}/upload";
+                
+                $curl = curl_init();
+                curl_setopt_array($curl, [
+                    CURLOPT_URL => $url,
+                    CURLOPT_POST => true,
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_POSTFIELDS => [
+                        'file' => curl_file_create($file->getRealPath(), $file->getMimeType(), $file->getClientOriginalName()),
+                        'upload_preset' => $uploadPreset,
+                        'folder' => 'chikondi/' . $key
+                    ],
+                    CURLOPT_TIMEOUT => 120,
+                ]);
+                
+                $response = curl_exec($curl);
+                $error = curl_error($curl);
+                curl_close($curl);
+                
+                if ($error) {
+                    \Log::error("Cloudinary upload error for {$key}: " . $error);
+                    continue;
+                }
+                
+                $result = json_decode($response, true);
+                if (isset($result['secure_url'])) {
+                    SiteSetting::set($key, $result['secure_url']);
+                }
             }
         }
 
