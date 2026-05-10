@@ -161,9 +161,9 @@
                 </div>
 
                 <!-- Logo & Copyright - Right -->
-                <div class="flex flex-col items-end gap-4">
+                <div class="flex flex-col items-end gap-4 max-w-[50%]">
                     <img src="{{ SiteSetting::get('logo', asset('images/logo.png')) }}" alt="Chikondi Logo" class="h-24 sm:h-28 md:h-32 w-auto object-contain">
-                    <p class="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] text-right">
+                    <p class="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] text-right leading-relaxed">
                         &copy; 2026 Chikondi Organisation. All Rights Reserved.
                     </p>
                 </div>
