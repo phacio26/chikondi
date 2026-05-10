@@ -150,7 +150,8 @@
     <!-- Footer -->
     <footer class="bg-accent py-10 text-white overflow-hidden relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
-            <div class="flex flex-row items-start justify-between gap-8">
+            <!-- Top: Links & Logo side by side -->
+            <div class="flex flex-row items-start justify-between gap-8 mb-8">
 
                 <!-- Links - Left -->
                 <div class="flex flex-col gap-4 text-xs font-bold uppercase tracking-[0.2em]">
@@ -160,14 +161,18 @@
                     <a href="{{ route('contact') }}" class="text-white/50 hover:text-brand transition-colors">Contact</a>
                 </div>
 
-                <!-- Logo & Copyright - Right -->
-                <div class="flex flex-col items-end gap-4 max-w-[50%]">
+                <!-- Logo - Right -->
+                <div class="flex flex-col items-end gap-4">
                     <img src="{{ SiteSetting::get('logo', asset('images/logo.png')) }}" alt="Chikondi Logo" class="h-24 sm:h-28 md:h-32 w-auto object-contain">
-                    <p class="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] text-right leading-relaxed">
-                        &copy; 2026 Chikondi Organisation. All Rights Reserved.
-                    </p>
                 </div>
 
+            </div>
+
+            <!-- Bottom: Copyright full width -->
+            <div class="border-t border-white/10 pt-4">
+                <p class="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">
+                    &copy; 2026 Chikondi Organisation. All Rights Reserved.
+                </p>
             </div>
         </div>
         <div class="absolute bottom-0 right-0 w-[500px] h-[500px] bg-brand/5 rounded-full blur-[100px] translate-x-1/3 translate-y-1/3"></div>
