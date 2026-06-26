@@ -47,8 +47,7 @@ class SettingsController extends Controller
         // Cloudinary credentials
         $cloudName = 'dtayyciom';
         $apiKey = '616976622426686';
-        $uploadPreset = 'chikondi_preset'; // CHANGE THIS to your new preset name
-
+        $uploadPreset = 'chikondi_preset';  
         $imageSettings = ['logo', 'hero_image', 'mother_child_image'];
 
         foreach ($imageSettings as $key) {

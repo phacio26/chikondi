@@ -54,6 +54,4 @@ Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
     Route::get('/contacts', [ContactController::class, 'index'])->name('contacts');
     Route::delete('/contacts/{contact}', [ContactController::class, 'destroy'])->name('contacts.destroy');
 });
-
-// IMPORTANT: Add this line at the VERY BOTTOM outside any group
-Route::post('/admin/contacts/bulk', [\App\Http\Controllers\Admin\ContactController::class, 'bulkDestroy'])->name('admin.contacts.bulk-destroy');
+ 

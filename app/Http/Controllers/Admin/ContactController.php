@@ -22,7 +22,13 @@ class ContactController extends Controller
 
     public function bulkDestroy(Request $request)
     {
+        // Get IDs from the request - works for both POST and DELETE
         $ids = $request->input('ids', []);
+        
+        // If no IDs found, try getting from the request directly
+        if (empty($ids)) {
+            $ids = $request->ids;
+        }
         
         if (empty($ids)) {
             return redirect()->route('admin.contacts')->with('error', 'No items selected.');
