@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -21,6 +22,14 @@ class AuthController extends Controller
         $credentials = $request->validate([
             'email'    => 'required|email',
             'password' => 'required',
+        ]);
+
+        Log::info('LOGIN ATTEMPT DEBUG', [
+            'email_received' => $credentials['email'],
+            'password_length' => strlen($credentials['password']),
+            'db_host' => config('database.connections.pgsql.host'),
+            'db_name' => config('database.connections.pgsql.database'),
+            'user_exists' => \App\Models\User::where('email', $credentials['email'])->exists(),
         ]);
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
