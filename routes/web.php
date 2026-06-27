@@ -42,6 +42,26 @@ Route::get('/create-admin-temp-xyz123', function () {
 
 /*
 |--------------------------------------------------------------------------
+| TEMP: Check admin user details - REMOVE AFTER USE
+|--------------------------------------------------------------------------
+*/
+Route::get('/check-admin-temp-xyz123', function () {
+    $user = \App\Models\User::where('email', 'katemaphacio@gmail.com')->first();
+
+    if (!$user) {
+        return 'No user found with that email.';
+    }
+
+    return response()->json([
+        'email' => $user->email,
+        'password_check' => \Illuminate\Support\Facades\Hash::check('ZBS1234f', $user->password),
+        'guard' => config('auth.defaults.guard'),
+        'provider' => config('auth.guards.' . config('auth.defaults.guard') . '.provider'),
+    ]);
+});
+
+/*
+|--------------------------------------------------------------------------
 | Admin Auth Routes (no middleware)
 |--------------------------------------------------------------------------
 */
