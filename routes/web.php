@@ -23,6 +23,20 @@ Route::get('/progress', [PageController::class, 'progress'])->name('progress');
 
 /*
 |--------------------------------------------------------------------------
+| TEMP: Database check route - REMOVE AFTER USE
+|--------------------------------------------------------------------------
+*/
+Route::get('/check-db-temp-xyz123', function () {
+    return response()->json([
+        'connection' => config('database.default'),
+        'host' => config('database.connections.pgsql.host'),
+        'database' => config('database.connections.pgsql.database'),
+        'tables' => \Illuminate\Support\Facades\Schema::getTableListing(),
+    ]);
+});
+
+/*
+|--------------------------------------------------------------------------
 | Admin Auth Routes (no middleware)
 |--------------------------------------------------------------------------
 */
@@ -54,4 +68,3 @@ Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
     Route::get('/contacts', [ContactController::class, 'index'])->name('contacts');
     Route::delete('/contacts/{contact}', [ContactController::class, 'destroy'])->name('contacts.destroy');
 });
- 
