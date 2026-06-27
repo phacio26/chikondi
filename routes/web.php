@@ -23,16 +23,21 @@ Route::get('/progress', [PageController::class, 'progress'])->name('progress');
 
 /*
 |--------------------------------------------------------------------------
-| TEMP: Database check route - REMOVE AFTER USE
+| TEMP: Create admin user - REMOVE AFTER USE
 |--------------------------------------------------------------------------
 */
-Route::get('/check-db-temp-xyz123', function () {
-    return response()->json([
-        'connection' => config('database.default'),
-        'host' => config('database.connections.pgsql.host'),
-        'database' => config('database.connections.pgsql.database'),
-        'tables' => \Illuminate\Support\Facades\Schema::getTableListing(),
+Route::get('/create-admin-temp-xyz123', function () {
+    if (\App\Models\User::where('email', 'katemaphacio@gmail.com')->exists()) {
+        return 'Admin already exists.';
+    }
+
+    \App\Models\User::create([
+        'name' => 'Admin User',
+        'email' => 'katemaphacio@gmail.com',
+        'password' => bcrypt('ZBS1234f'),
     ]);
+
+    return 'Admin user created successfully! Remember to delete this route now.';
 });
 
 /*
