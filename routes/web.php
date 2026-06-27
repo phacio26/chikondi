@@ -52,11 +52,18 @@ Route::get('/check-admin-temp-xyz123', function () {
         return 'No user found with that email.';
     }
 
+    $attemptResult = \Illuminate\Support\Facades\Auth::attempt([
+        'email' => 'katemaphacio@gmail.com',
+        'password' => 'ZBS1234f',
+    ]);
+
     return response()->json([
         'email' => $user->email,
         'password_check' => \Illuminate\Support\Facades\Hash::check('ZBS1234f', $user->password),
+        'auth_attempt_result' => $attemptResult,
         'guard' => config('auth.defaults.guard'),
         'provider' => config('auth.guards.' . config('auth.defaults.guard') . '.provider'),
+        'session_driver' => config('session.driver'),
     ]);
 });
 
