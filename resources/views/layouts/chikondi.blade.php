@@ -114,7 +114,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
             <div class="flex justify-between h-16 sm:h-20 md:h-24 items-center">
                 <div class="flex items-center gap-2 group cursor-pointer" onclick="location.href='{{ route('home') }}'">
-                    <img src="{{ SiteSetting::get('logo', asset('images/tab-logo.png')) }}" alt="Chikondi Logo" class="h-32 sm:h-36 md:h-40 w-auto object-contain">
+                    <img src="{{ SiteSetting::get('logo', asset('images/tab-logo.png')) }}" alt="Chikondi Logo" class="h-10 sm:h-12 md:h-14 w-auto object-contain">
                 </div>
 
                 <div class="hidden lg:flex items-center space-x-10 text-[11px] font-bold uppercase tracking-[0.2em] text-accent/60">
