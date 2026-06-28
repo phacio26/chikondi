@@ -238,12 +238,22 @@
                         <h2 class="font-display text-xl font-black text-accent mb-3 leading-tight">
                             {{ $post->title }}
                         </h2>
-                        @if($post->excerpt)
-                            <p class="text-sm text-accent/60 leading-relaxed">{{ $post->excerpt }}</p>
-                        @elseif($post->body)
-                            <p class="text-sm text-accent/60 leading-relaxed">
-                                {{ \Illuminate\Support\Str::limit(strip_tags($post->body), 120) }}
-                            </p>
+
+                        @php
+                            $fullText = $post->excerpt ?: strip_tags($post->body ?? '');
+                            $shortText = \Illuminate\Support\Str::limit($fullText, 120);
+                            $needsToggle = strlen($fullText) > strlen($shortText);
+                        @endphp
+
+                        @if($fullText)
+                            <div class="news-text-wrap" data-full-text="{{ $fullText }}" data-short-text="{{ $shortText }}">
+                                <p class="text-sm text-accent/60 leading-relaxed news-text-content">{{ $shortText }}</p>
+                                @if($needsToggle)
+                                    <button type="button" class="read-more-btn text-brand font-bold text-xs uppercase tracking-wider mt-2 hover:underline" data-expanded="false">
+                                        Read more
+                                    </button>
+                                @endif
+                            </div>
                         @endif
                     </div>
 
@@ -269,6 +279,26 @@
 
         document.querySelectorAll('.scroll-reveal').forEach(el => {
             observer.observe(el);
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.read-more-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const wrapper = btn.closest('.news-text-wrap');
+                const textEl = wrapper.querySelector('.news-text-content');
+                const isExpanded = btn.dataset.expanded === 'true';
+
+                if (isExpanded) {
+                    textEl.textContent = wrapper.dataset.shortText;
+                    btn.textContent = 'Read more';
+                    btn.dataset.expanded = 'false';
+                } else {
+                    textEl.textContent = wrapper.dataset.fullText;
+                    btn.textContent = 'Show less';
+                    btn.dataset.expanded = 'true';
+                }
+            });
         });
     });
 </script>
