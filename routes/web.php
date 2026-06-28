@@ -23,52 +23,6 @@ Route::get('/progress', [PageController::class, 'progress'])->name('progress');
 
 /*
 |--------------------------------------------------------------------------
-| TEMP: Create admin user - REMOVE AFTER USE
-|--------------------------------------------------------------------------
-*/
-Route::get('/create-admin-temp-xyz123', function () {
-    if (\App\Models\User::where('email', 'katemaphacio@gmail.com')->exists()) {
-        return 'Admin already exists.';
-    }
-
-    \App\Models\User::create([
-        'name' => 'Admin User',
-        'email' => 'katemaphacio@gmail.com',
-        'password' => bcrypt('ZBS1234f'),
-    ]);
-
-    return 'Admin user created successfully! Remember to delete this route now.';
-});
-
-/*
-|--------------------------------------------------------------------------
-| TEMP: Check admin user details - REMOVE AFTER USE
-|--------------------------------------------------------------------------
-*/
-Route::get('/check-admin-temp-xyz123', function () {
-    $user = \App\Models\User::where('email', 'katemaphacio@gmail.com')->first();
-
-    if (!$user) {
-        return 'No user found with that email.';
-    }
-
-    $attemptResult = \Illuminate\Support\Facades\Auth::attempt([
-        'email' => 'katemaphacio@gmail.com',
-        'password' => 'ZBS1234f',
-    ]);
-
-    return response()->json([
-        'email' => $user->email,
-        'password_check' => \Illuminate\Support\Facades\Hash::check('ZBS1234f', $user->password),
-        'auth_attempt_result' => $attemptResult,
-        'guard' => config('auth.defaults.guard'),
-        'provider' => config('auth.guards.' . config('auth.defaults.guard') . '.provider'),
-        'session_driver' => config('session.driver'),
-    ]);
-});
-
-/*
-|--------------------------------------------------------------------------
 | Admin Auth Routes (no middleware)
 |--------------------------------------------------------------------------
 */
@@ -88,7 +42,7 @@ Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
 
     // News
     Route::resource('news', NewsController::class);
-    
+
     // Progress (Admin CRUD)
     Route::resource('progress', ProgressController::class);
 
