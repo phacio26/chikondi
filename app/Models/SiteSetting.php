@@ -17,11 +17,11 @@ class SiteSetting extends Model
         return $setting ? $setting->value : $default;
     }
 
-    public static function set(string $key, string $value)
+    public static function set(string $key, ?string $value)
     {
         return static::updateOrCreate(
             ['key' => $key],
-            ['value' => $value]
+            ['value' => $value ?? '']
         );
     }
 }
