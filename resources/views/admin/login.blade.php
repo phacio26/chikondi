@@ -29,9 +29,14 @@
 </head>
 <body class="bg-accent min-h-screen flex items-center justify-center font-sans">
 
+@php use App\Models\SiteSetting; @endphp
+
     <div class="w-full max-w-md px-4">
         <div class="text-center mb-10">
-            <img src="{{ asset('images/logo.png') }}" alt="Chikondi Logo" class="h-16 w-auto brightness-0 invert opacity-80 mx-auto mb-6">
+            <img src="{{ SiteSetting::get('login_logo', asset('images/tab-logo.png')) }}"
+                 alt="Chikondi Logo"
+                 class="h-16 w-auto brightness-0 invert opacity-80 mx-auto mb-6"
+                 onerror="this.onerror=null; this.src='{{ asset('images/tab-logo.png') }}';">
             <h1 class="font-display text-3xl font-black text-white uppercase tracking-tight">Admin Panel</h1>
             <p class="text-white/30 text-xs font-bold uppercase tracking-widest mt-2">Chikondi Organisation</p>
         </div>

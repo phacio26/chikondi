@@ -15,9 +15,9 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
 
-                <!-- Logo -->
+                <!-- Logo (Sidebar) -->
                 <div>
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-accent/40 mb-4">Logo</label>
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-accent/40 mb-4">Logo (Sidebar / Admin Panel)</label>
                     @if(SiteSetting::get('logo'))
                         <img src="{{ SiteSetting::get('logo') }}" alt="Current Logo" class="h-16 w-auto mb-4 rounded-xl">
                     @else
@@ -26,6 +26,19 @@
                     <input type="file" name="logo" accept="image/*"
                            class="w-full px-4 py-3 bg-surface border-2 border-transparent focus:border-brand transition-all rounded-2xl outline-none text-sm font-bold text-accent/60">
                     <p class="text-[10px] text-accent/30 mt-2 font-bold">Upload new logo to replace current one</p>
+                </div>
+
+                <!-- Login Page Logo -->
+                <div>
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-accent/40 mb-4">Login Page Logo</label>
+                    @if(SiteSetting::get('login_logo'))
+                        <img src="{{ SiteSetting::get('login_logo') }}" alt="Current Login Logo" class="h-16 w-auto mb-4 rounded-xl">
+                    @else
+                        <img src="{{ asset('images/tab-logo.png') }}" alt="Default Login Logo" class="h-16 w-auto mb-4 rounded-xl">
+                    @endif
+                    <input type="file" name="login_logo" accept="image/*"
+                           class="w-full px-4 py-3 bg-surface border-2 border-transparent focus:border-brand transition-all rounded-2xl outline-none text-sm font-bold text-accent/60">
+                    <p class="text-[10px] text-accent/30 mt-2 font-bold">Shown on the admin login screen only, separate from the sidebar logo</p>
                 </div>
 
                 <!-- Hero Image -->

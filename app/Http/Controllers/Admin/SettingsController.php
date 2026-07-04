@@ -28,6 +28,7 @@ class SettingsController extends Controller
             'bank_details'          => 'nullable|string|max:255',
             'news_coming_soon_text' => 'nullable|string|max:500',
             'logo'                  => 'nullable|image|max:20480',
+            'login_logo'            => 'nullable|image|max:20480',
             'hero_image'            => 'nullable|image|max:20480',
             'mother_child_image'    => 'nullable|image|max:20480',
         ]);
@@ -48,7 +49,7 @@ class SettingsController extends Controller
         $cloudName = 'dtayyciom';
         $apiKey = '616976622426686';
         $uploadPreset = 'chikondi_preset';  
-        $imageSettings = ['logo', 'hero_image', 'mother_child_image'];
+        $imageSettings = ['logo', 'login_logo', 'hero_image', 'mother_child_image'];
 
         foreach ($imageSettings as $key) {
             if ($request->hasFile($key)) {
