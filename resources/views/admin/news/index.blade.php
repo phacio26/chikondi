@@ -27,61 +27,109 @@
                 </a>
             </div>
         @else
-            <table class="w-full">
-                <thead>
-                    <tr class="border-b border-accent/5">
-                        <th class="text-left px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-accent/30">Title</th>
-                        <th class="text-left px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-accent/30">Status</th>
-                        <th class="text-left px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-accent/30">Date</th>
-                        <th class="text-left px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-accent/30">Actions</th>
-                    <tr>
-                </thead>
-                <tbody>
-                    @foreach($posts as $post)
-                        <tr class="border-b border-accent/5 hover:bg-surface transition-all">
-                            <td class="px-6 py-5">
-                                <div class="flex items-center gap-4">
-                                    @if($post->image)
-                                        <img src="{{ $post->image }}" alt="{{ $post->title }}" class="w-12 h-12 rounded-xl object-cover">
+
+            <!-- ===== MOBILE CARD LAYOUT (visible below md) ===== -->
+            <div class="md:hidden divide-y divide-accent/5">
+                @foreach($posts as $post)
+                    <div class="p-4">
+                        <div class="flex items-start gap-3">
+                            @if($post->image)
+                                <img src="{{ $post->image }}" alt="{{ $post->title }}" class="w-14 h-14 rounded-xl object-cover shrink-0">
+                            @else
+                                <div class="w-14 h-14 rounded-xl bg-brand/10 flex items-center justify-center shrink-0">
+                                    <svg class="w-6 h-6 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                    </svg>
+                                </div>
+                            @endif
+
+                            <div class="min-w-0 flex-1">
+                                <p class="font-black text-sm text-accent break-words">{{ $post->title }}</p>
+                                <p class="text-xs text-accent/40 mt-1">{{ Str::limit($post->excerpt ?? $post->body, 60) }}</p>
+
+                                <div class="flex flex-wrap items-center gap-2 mt-3">
+                                    @if($post->published)
+                                        <span class="px-3 py-1 bg-green-50 text-green-700 text-[10px] font-black uppercase tracking-widest rounded-full">Published</span>
                                     @else
-                                        <div class="w-12 h-12 rounded-xl bg-brand/10 flex items-center justify-center">
-                                            <svg class="w-6 h-6 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                            </svg>
-                                        </div>
+                                        <span class="px-3 py-1 bg-accent/5 text-accent/40 text-[10px] font-black uppercase tracking-widest rounded-full">Draft</span>
                                     @endif
-                                    <div>
-                                        <p class="font-black text-sm text-accent">{{ $post->title }}</p>
-                                        <p class="text-xs text-accent/40 mt-1">{{ Str::limit($post->excerpt ?? $post->body, 60) }}</p>
-                                    </div>
+                                    <span class="text-[10px] font-bold text-accent/40">{{ $post->created_at->format('d M Y') }}</span>
                                 </div>
-                            </td>
-                            <td class="px-6 py-5">
-                                @if($post->published)
-                                    <span class="px-3 py-1 bg-green-50 text-green-700 text-[10px] font-black uppercase tracking-widest rounded-full">Published</span>
-                                @else
-                                    <span class="px-3 py-1 bg-accent/5 text-accent/40 text-[10px] font-black uppercase tracking-widest rounded-full">Draft</span>
-                                @endif
-                            </td>
-                            <td class="px-6 py-5">
-                                <p class="text-xs font-bold text-accent/40">{{ $post->created_at->format('d M Y') }}</p>
-                            </td>
-                            <td class="px-6 py-5">
-                                <div class="flex items-center gap-4">
-                                    <a href="{{ route('admin.news.edit', $post) }}" class="text-[10px] font-black uppercase tracking-widest text-accent/50 hover:text-brand transition-all">Edit</a>
-                                    <form method="POST" action="{{ route('admin.news.destroy', $post) }}" class="inline" id="delete-form-{{ $post->id }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="button" onclick="confirmDelete('Delete this news post? This action cannot be undone.', document.getElementById('delete-form-{{ $post->id }}'))" class="text-[10px] font-black uppercase tracking-widest text-brand hover:text-accent transition-all">
-                                            Delete
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-5 mt-4 pt-3 border-t border-accent/5">
+                            <a href="{{ route('admin.news.edit', $post) }}" class="text-[11px] font-black uppercase tracking-widest text-accent/50 hover:text-brand transition-all">Edit</a>
+                            <form method="POST" action="{{ route('admin.news.destroy', $post) }}" class="inline" id="delete-form-mobile-{{ $post->id }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" onclick="confirmDelete('Delete this news post? This action cannot be undone.', document.getElementById('delete-form-mobile-{{ $post->id }}'))" class="text-[11px] font-black uppercase tracking-widest text-brand hover:text-accent transition-all">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            <!-- ===== DESKTOP / TABLET TABLE LAYOUT (visible md and up) ===== -->
+            <div class="hidden md:block overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="border-b border-accent/5">
+                            <th class="text-left px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-accent/30">Title</th>
+                            <th class="text-left px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-accent/30">Status</th>
+                            <th class="text-left px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-accent/30">Date</th>
+                            <th class="text-left px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-accent/30">Actions</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach($posts as $post)
+                            <tr class="border-b border-accent/5 hover:bg-surface transition-all">
+                                <td class="px-6 py-5">
+                                    <div class="flex items-center gap-4">
+                                        @if($post->image)
+                                            <img src="{{ $post->image }}" alt="{{ $post->title }}" class="w-12 h-12 rounded-xl object-cover">
+                                        @else
+                                            <div class="w-12 h-12 rounded-xl bg-brand/10 flex items-center justify-center">
+                                                <svg class="w-6 h-6 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                                </svg>
+                                            </div>
+                                        @endif
+                                        <div>
+                                            <p class="font-black text-sm text-accent">{{ $post->title }}</p>
+                                            <p class="text-xs text-accent/40 mt-1">{{ Str::limit($post->excerpt ?? $post->body, 60) }}</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-5">
+                                    @if($post->published)
+                                        <span class="px-3 py-1 bg-green-50 text-green-700 text-[10px] font-black uppercase tracking-widest rounded-full">Published</span>
+                                    @else
+                                        <span class="px-3 py-1 bg-accent/5 text-accent/40 text-[10px] font-black uppercase tracking-widest rounded-full">Draft</span>
+                                    @endif
+                                </td>
+                                <td class="px-6 py-5">
+                                    <p class="text-xs font-bold text-accent/40">{{ $post->created_at->format('d M Y') }}</p>
+                                </td>
+                                <td class="px-6 py-5">
+                                    <div class="flex items-center gap-4">
+                                        <a href="{{ route('admin.news.edit', $post) }}" class="text-[10px] font-black uppercase tracking-widest text-accent/50 hover:text-brand transition-all">Edit</a>
+                                        <form method="POST" action="{{ route('admin.news.destroy', $post) }}" class="inline" id="delete-form-{{ $post->id }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button" onclick="confirmDelete('Delete this news post? This action cannot be undone.', document.getElementById('delete-form-{{ $post->id }}'))" class="text-[10px] font-black uppercase tracking-widest text-brand hover:text-accent transition-all">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
             <div class="px-6 py-4">
                 {{ $posts->links() }}
