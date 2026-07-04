@@ -13,7 +13,14 @@ class ContactController extends Controller
         $contacts = Contact::orderBy('created_at', 'desc')->get();
         return view('admin.contacts.index', compact('contacts'));
     }
+   public function markAsRead(Contact $contact)
+{
+    if (!$contact->read_at) {
+        $contact->update(['read_at' => now()]);
+    }
 
+    return response()->json(['success' => true]);
+}
     public function destroy(Contact $contact)
     {
         $contact->delete();

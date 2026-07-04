@@ -53,4 +53,5 @@ Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
     // Contact Messages
     Route::get('/contacts', [ContactController::class, 'index'])->name('contacts');
     Route::delete('/contacts/{contact}', [ContactController::class, 'destroy'])->name('contacts.destroy');
+    Route::post('/contacts/{contact}/read', [ContactController::class, 'markAsRead'])->name('contacts.read');
 });
