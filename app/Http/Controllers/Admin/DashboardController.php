@@ -13,7 +13,7 @@ class DashboardController extends Controller
         $totalNews = NewsPost::count();
         $publishedNews = NewsPost::where('published', true)->count();
         $totalMessages = Contact::count();
-        $unreadMessages = Contact::where('read', false)->count();
+        $unreadMessages = Contact::whereNull('read_at')->count();
 
         return view('admin.dashboard', compact(
             'totalNews',
