@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Contact;
+use App\Models\TeamMember;
 
 class PageController extends Controller
 {
@@ -77,5 +78,11 @@ class PageController extends Controller
         Contact::create($validated);
 
         return redirect()->route('contact')->with('success', true);
+    }
+
+    public function team()
+    {
+        $teamMembers = TeamMember::orderBy('order')->orderBy('created_at', 'desc')->get();
+        return view('pages.team', compact('teamMembers'));
     }
 }
