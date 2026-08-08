@@ -70,6 +70,55 @@
             </div>
         </div>
 
+        <!-- Mobile Money Section -->
+        <div class="bg-white rounded-[1.5rem] border border-accent/5 shadow-sm p-6 sm:p-8">
+            <p class="text-[10px] font-black uppercase tracking-[0.3em] text-accent/30 mb-6 sm:mb-8">Mobile Money</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+
+                <!-- Airtel Money -->
+                <div class="p-6 bg-surface rounded-2xl border border-accent/5 space-y-5">
+                    <p class="text-xs font-black uppercase tracking-widest text-brand">Airtel Money</p>
+
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-accent/40 mb-3">Nickname / Agent Code</label>
+                        <input type="text" name="airtel_nickname" value="{{ SiteSetting::get('airtel_nickname', 'BCAC01') }}"
+                               class="w-full px-6 py-4 bg-white border-2 border-transparent focus:border-brand transition-all rounded-2xl outline-none font-bold text-accent"
+                               placeholder="e.g., BCAC01">
+                        <p class="text-[10px] text-accent/30 mt-2 font-bold">Shown as Step 4 (Enter Nickname) on the donate page</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-accent/40 mb-3">Step-by-step Instructions</label>
+                        <textarea name="airtel_instructions" rows="7"
+                                  class="w-full px-6 py-4 bg-white border-2 border-transparent focus:border-brand transition-all rounded-2xl outline-none font-bold text-accent text-sm">{{ SiteSetting::get('airtel_instructions', "Dial *211#\nChoose option 3 (Make Payments)\nChoose option 3 (Buy Goods and Services)\nChoose option 1, enter Nickname\nEnter amount\nEnter reference number (your name)\nEnter PIN") }}</textarea>
+                        <p class="text-[10px] text-accent/30 mt-2 font-bold">One step per line — displayed as a numbered list on the donate page</p>
+                    </div>
+                </div>
+
+                <!-- TNM Mpamba -->
+                <div class="p-6 bg-surface rounded-2xl border border-accent/5 space-y-5">
+                    <p class="text-xs font-black uppercase tracking-widest text-brand">TNM Mpamba</p>
+
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-accent/40 mb-3">Agent Code</label>
+                        <input type="text" name="mpamba_agent_code" value="{{ SiteSetting::get('mpamba_agent_code', '') }}"
+                               class="w-full px-6 py-4 bg-white border-2 border-transparent focus:border-brand transition-all rounded-2xl outline-none font-bold text-accent"
+                               placeholder="e.g., 123456">
+                        <p class="text-[10px] text-accent/30 mt-2 font-bold">Shown prominently on the donate page</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-accent/40 mb-3">Step-by-step Instructions</label>
+                        <textarea name="mpamba_instructions" rows="7"
+                                  class="w-full px-6 py-4 bg-white border-2 border-transparent focus:border-brand transition-all rounded-2xl outline-none font-bold text-accent text-sm">{{ SiteSetting::get('mpamba_instructions', "Dial *444#\nChoose Pay Bill / Send Money option\nEnter the Agent / Business Code above\nEnter amount\nEnter reference number (your name)\nEnter PIN") }}</textarea>
+                        <p class="text-[10px] text-accent/30 mt-2 font-bold">One step per line — displayed as a numbered list on the donate page</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
         <!-- Bank Details Section -->
         <div class="bg-white rounded-[1.5rem] border border-accent/5 shadow-sm p-6 sm:p-8">
             <p class="text-[10px] font-black uppercase tracking-[0.3em] text-accent/30 mb-6 sm:mb-8">Bank Details</p>
@@ -135,7 +184,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.querySelector('form');
         if (form) {
-            const inputs = form.querySelectorAll('input:not([type="submit"]):not([type="file"]), textarea');
+            const inputs = form.querySelectorAll('input:not([type="submit"]):not([type="file"])');
             inputs.forEach(input => {
                 input.addEventListener('keypress', function(e) {
                     if (e.key === 'Enter') {

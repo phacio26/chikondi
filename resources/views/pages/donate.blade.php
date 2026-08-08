@@ -137,6 +137,31 @@
         position: relative;
         z-index: 2;
     }
+
+    .momo-step {
+        counter-increment: momo-counter;
+        position: relative;
+        padding-left: 2.25rem;
+    }
+    .momo-steps {
+        counter-reset: momo-counter;
+    }
+    .momo-step::before {
+        content: counter(momo-counter);
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 9999px;
+        background: rgba(220,38,38,0.1);
+        color: #DC2626;
+        font-size: 10px;
+        font-weight: 900;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 </style>
 @endsection
 
@@ -188,14 +213,49 @@
                             <h2 class="font-display text-2xl sm:text-3xl font-black text-accent mb-8 md:mb-10 uppercase tracking-tighter">Bank & Mobile Money</h2>
 
                             <p class="text-accent/60 mb-8 max-w-xl">
-                                We accept financial support via bank transfer, Airtel money, or Mpamba. Please use the payment details below for secure processing.
+                                We accept financial support via bank transfer, Airtel Money, or TNM Mpamba. Follow the steps below for secure processing.
                             </p>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                <div class="p-6 md:p-8 bg-surface rounded-3xl border border-accent/5 hover:border-brand transition-all flex flex-col justify-between">
-                                    <p class="text-[9px] font-black uppercase tracking-[0.2em] text-accent/40 mb-2">Airtel & Mpamba</p>
-                                    <p class="text-lg md:text-xl font-black text-accent italic">{{ App\Models\SiteSetting::get('phone_number', '0994392275') }}</p>
+
+                                <!-- Airtel Money Box -->
+                                @php
+                                    $airtelNickname = App\Models\SiteSetting::get('airtel_nickname', 'BCAC01');
+                                    $airtelInstructions = App\Models\SiteSetting::get('airtel_instructions', "Dial *211#\nChoose option 3 (Make Payments)\nChoose option 3 (Buy Goods and Services)\nChoose option 1, enter Nickname\nEnter amount\nEnter reference number (your name)\nEnter PIN");
+                                    $airtelSteps = array_filter(array_map('trim', explode("\n", $airtelInstructions)));
+                                @endphp
+                                <div class="p-6 md:p-8 bg-surface rounded-3xl border border-accent/5 hover:border-brand transition-all">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <p class="text-[9px] font-black uppercase tracking-[0.2em] text-accent/40">Airtel Money</p>
+                                        <span class="px-3 py-1 bg-brand/10 text-brand text-[9px] font-black uppercase tracking-widest rounded-full">Nickname: {{ $airtelNickname }}</span>
+                                    </div>
+                                    <ol class="momo-steps space-y-3">
+                                        @foreach($airtelSteps as $step)
+                                            <li class="momo-step text-sm text-accent/70 font-medium">{{ $step }}</li>
+                                        @endforeach
+                                    </ol>
                                 </div>
+
+                                <!-- TNM Mpamba Box -->
+                                @php
+                                    $mpambaCode = App\Models\SiteSetting::get('mpamba_agent_code', '');
+                                    $mpambaInstructions = App\Models\SiteSetting::get('mpamba_instructions', "Dial *444#\nChoose Pay Bill / Send Money option\nEnter the Agent Code above\nEnter amount\nEnter reference number (your name)\nEnter PIN");
+                                    $mpambaSteps = array_filter(array_map('trim', explode("\n", $mpambaInstructions)));
+                                @endphp
+                                <div class="p-6 md:p-8 bg-surface rounded-3xl border border-accent/5 hover:border-brand transition-all">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <p class="text-[9px] font-black uppercase tracking-[0.2em] text-accent/40">TNM Mpamba</p>
+                                        @if($mpambaCode)
+                                            <span class="px-3 py-1 bg-brand/10 text-brand text-[9px] font-black uppercase tracking-widest rounded-full">Code: {{ $mpambaCode }}</span>
+                                        @endif
+                                    </div>
+                                    <ol class="momo-steps space-y-3">
+                                        @foreach($mpambaSteps as $step)
+                                            <li class="momo-step text-sm text-accent/70 font-medium">{{ $step }}</li>
+                                        @endforeach
+                                    </ol>
+                                </div>
+
                                 <div class="p-6 md:p-8 bg-surface rounded-3xl border border-accent/5 hover:border-brand transition-all flex flex-col justify-between">
                                     <p class="text-[9px] font-black uppercase tracking-[0.2em] text-accent/40 mb-2">Bank Transfer</p>
                                     <div class="space-y-2">
@@ -222,7 +282,8 @@
                                         @endif
                                     </div>
                                 </div>
-                                <div class="p-6 md:p-10 bg-accent text-white rounded-3xl col-span-1 md:col-span-2 flex flex-col sm:flex-row gap-6 sm:justify-between sm:items-center">
+
+                                <div class="p-6 md:p-10 bg-accent text-white rounded-3xl flex flex-col sm:flex-row gap-6 sm:justify-between sm:items-center">
                                     <div>
                                         <p class="text-[9px] font-black uppercase tracking-[0.2em] text-brand mb-1">Direct Line</p>
                                         <p class="text-xl md:text-2xl font-black italic">{{ App\Models\SiteSetting::get('phone_number', '0994392275') }}</p>

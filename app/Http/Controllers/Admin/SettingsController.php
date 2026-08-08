@@ -27,6 +27,10 @@ class SettingsController extends Controller
             'branch'                => 'nullable|string|max:100',
             'bank_details'          => 'nullable|string|max:255',
             'news_coming_soon_text' => 'nullable|string|max:500',
+            'airtel_nickname'       => 'nullable|string|max:50',
+            'airtel_instructions'   => 'nullable|string|max:1000',
+            'mpamba_agent_code'     => 'nullable|string|max:50',
+            'mpamba_instructions'   => 'nullable|string|max:1000',
             'logo'                  => 'nullable|image|max:20480',
             'login_logo'            => 'nullable|image|max:20480',
             'hero_image'            => 'nullable|image|max:20480',
@@ -37,6 +41,8 @@ class SettingsController extends Controller
         $textSettings = [
             'phone_number', 'email', 'bank_name', 'account_name',
             'account_number', 'branch', 'bank_details', 'news_coming_soon_text',
+            'airtel_nickname', 'airtel_instructions',
+            'mpamba_agent_code', 'mpamba_instructions',
         ];
 
         foreach ($textSettings as $key) {
