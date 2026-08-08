@@ -27,13 +27,13 @@ Route::get('/progress', [PageController::class, 'progress'])->name('progress');
 |--------------------------------------------------------------------------
 */
 Route::get('/create-admin-temp-xyz123', function () {
-    if (\App\Models\User::where('email', 'chikondi@gmil.com')->exists()) {
+    if (\App\Models\User::where('email', 'chikondi@gmail.com')->exists()) {
         return 'Admin already exists.';
     }
 
     \App\Models\User::create([
         'name' => 'Admin User',
-        'email' => 'chikondi@gmil.com',
+        'email' => 'chikondi@gmail.com',
         'password' => bcrypt('ZBS1234f'),
     ]);
 
@@ -46,14 +46,14 @@ Route::get('/create-admin-temp-xyz123', function () {
 |--------------------------------------------------------------------------
 */
 Route::get('/check-admin-temp-xyz123', function () {
-    $user = \App\Models\User::where('email', 'chikondi@gmil.com')->first();
+    $user = \App\Models\User::where('email', 'chikondi@gmail.com')->first();
 
     if (!$user) {
         return 'No user found with that email.';
     }
 
     $attemptResult = \Illuminate\Support\Facades\Auth::attempt([
-        'email' => 'chikondi@gmil.com',
+        'email' => 'chikondi@gmail.com',
         'password' => 'ZBS1234f',
     ]);
 
