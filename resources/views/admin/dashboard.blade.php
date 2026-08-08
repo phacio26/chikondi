@@ -5,7 +5,7 @@
 
 @section('content')
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-10">
 
         <div class="bg-white rounded-[1.5rem] p-6 border border-accent/5 shadow-sm">
             <p class="text-[10px] font-black uppercase tracking-[0.3em] text-accent/30 mb-3">Total News</p>
@@ -25,6 +25,11 @@
         <div class="bg-white rounded-[1.5rem] p-6 border border-accent/5 shadow-sm">
             <p class="text-[10px] font-black uppercase tracking-[0.3em] text-accent/30 mb-3">Unread Messages</p>
             <p class="font-display text-4xl font-black text-brand">{{ $unreadMessages }}</p>
+        </div>
+
+        <div class="bg-white rounded-[1.5rem] p-6 border border-accent/5 shadow-sm">
+            <p class="text-[10px] font-black uppercase tracking-[0.3em] text-accent/30 mb-3">Team Members</p>
+            <p class="font-display text-4xl font-black text-accent">{{ $totalTeamMembers }}</p>
         </div>
 
     </div>
