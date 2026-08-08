@@ -52,8 +52,8 @@ Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
     Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update');
 
     // Team Members
-    Route::resource('team', \App\Http\Controllers\Admin\TeamController::class)->names('admin.team');
-    
+    Route::resource('team', \App\Http\Controllers\Admin\TeamController::class);
+
     // Contact Messages
     Route::get('/contacts', [ContactController::class, 'index'])->name('contacts');
     Route::delete('/contacts/{contact}', [ContactController::class, 'destroy'])->name('contacts.destroy');
