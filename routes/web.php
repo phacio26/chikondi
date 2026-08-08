@@ -27,14 +27,14 @@ Route::get('/progress', [PageController::class, 'progress'])->name('progress');
 |--------------------------------------------------------------------------
 */
 Route::get('/create-admin-temp-xyz123', function () {
-    if (\App\Models\User::where('email', 'your-email@example.com')->exists()) {
+    if (\App\Models\User::where('email', 'chikondi@gmil.com')->exists()) {
         return 'Admin already exists.';
     }
 
     \App\Models\User::create([
         'name' => 'Admin User',
-        'email' => 'your-email@example.com',
-        'password' => bcrypt('your-secure-password'),
+        'email' => 'chikondi@gmil.com',
+        'password' => bcrypt('ZBS1234f'),
     ]);
 
     return 'Admin user created successfully! Remember to delete this route now.';
@@ -46,7 +46,7 @@ Route::get('/create-admin-temp-xyz123', function () {
 |--------------------------------------------------------------------------
 */
 Route::get('/check-admin-temp-xyz123', function () {
-    $user = \App\Models\User::where('email', 'your-email@example.com')->first();
+    $user = \App\Models\User::where('email', 'chikondi@gmil.com')->first();
 
     if (!$user) {
         return 'No user found with that email.';
@@ -59,7 +59,7 @@ Route::get('/check-admin-temp-xyz123', function () {
 
     return response()->json([
         'email' => $user->email,
-        'password_check' => \Illuminate\Support\Facades\Hash::check('your-secure-password', $user->password),
+        'password_check' => \Illuminate\Support\Facades\Hash::check('ZBS1234f', $user->password),
         'auth_attempt_result' => $attemptResult,
         'guard' => config('auth.defaults.guard'),
         'provider' => config('auth.guards.' . config('auth.defaults.guard') . '.provider'),
