@@ -38,9 +38,20 @@
                     <p class="text-brand text-xs font-bold uppercase tracking-widest mt-1 mb-4">{{ $member->role }}</p>
 
                     @if($member->bio)
-                    <div class="text-sm text-accent/60 leading-relaxed team-bio">
-                        {!! nl2br(e($member->bio)) !!}
+                    <div class="relative">
+                        <div id="bio-{{ $member->id }}" class="text-sm text-accent/60 leading-relaxed team-bio max-h-28 overflow-hidden transition-all duration-300">
+                            {!! nl2br(e($member->bio)) !!}
+                        </div>
+                        <div id="fade-{{ $member->id }}" class="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent pointer-events-none"></div>
                     </div>
+                    <button
+                        type="button"
+                        onclick="toggleBio({{ $member->id }})"
+                        id="toggle-btn-{{ $member->id }}"
+                        class="mt-3 text-brand text-xs font-black uppercase tracking-widest hover:underline"
+                    >
+                        Show more
+                    </button>
                     @endif
                 </div>
             </div>
@@ -50,5 +61,41 @@
 
     </div>
 </main>
+
+<script>
+    function toggleBio(id) {
+        const bio = document.getElementById('bio-' + id);
+        const fade = document.getElementById('fade-' + id);
+        const btn = document.getElementById('toggle-btn-' + id);
+
+        const isExpanded = bio.classList.contains('bio-expanded');
+
+        if (isExpanded) {
+            bio.classList.remove('bio-expanded');
+            bio.classList.add('max-h-28');
+            fade.style.display = 'block';
+            btn.textContent = 'Show more';
+        } else {
+            bio.classList.add('bio-expanded');
+            bio.classList.remove('max-h-28');
+            fade.style.display = 'none';
+            btn.textContent = 'Show less';
+        }
+    }
+
+    // Hide "Show more" button on load if bio content is short enough to not need it
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('[id^="bio-"]').forEach(function (bio) {
+            const id = bio.id.replace('bio-', '');
+            const btn = document.getElementById('toggle-btn-' + id);
+            const fade = document.getElementById('fade-' + id);
+
+            if (bio.scrollHeight <= bio.clientHeight) {
+                if (btn) btn.style.display = 'none';
+                if (fade) fade.style.display = 'none';
+            }
+        });
+    });
+</script>
 
 @endsection
