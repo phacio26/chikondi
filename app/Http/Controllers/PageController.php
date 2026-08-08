@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Contact;
-use App\Mail\ContactNotification;
-use Illuminate\Support\Facades\Mail;
 
 class PageController extends Controller
 {
@@ -76,9 +74,7 @@ class PageController extends Controller
             'ideas'   => 'nullable|string|max:5000',
         ]);
 
-        $contact = Contact::create($validated);
-
-        Mail::to('katemaphacio4@gmail.com')->send(new ContactNotification($contact));
+        Contact::create($validated);
 
         return redirect()->route('contact')->with('success', true);
     }
