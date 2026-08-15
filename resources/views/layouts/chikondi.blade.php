@@ -191,6 +191,7 @@
 
                 <div class="hidden lg:flex items-center space-x-10 text-[11px] font-bold uppercase tracking-[0.2em] text-accent/60">
                     <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-brand border-b-2 border-brand pb-1' : 'hover:text-brand' }} transition-all">Home</a>
+                    <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'text-brand border-b-2 border-brand pb-1' : 'hover:text-brand' }} transition-all">About</a>
                     <a href="{{ route('team') }}" class="{{ request()->routeIs('team') ? 'text-brand border-b-2 border-brand pb-1' : 'hover:text-brand' }} transition-all">Our Team</a>
                     <a href="{{ route('donate') }}" class="{{ request()->routeIs('donate') ? 'text-brand border-b-2 border-brand pb-1' : 'hover:text-brand' }} transition-all">Donations</a>
                     <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'text-brand border-b-2 border-brand pb-1' : 'hover:text-brand' }} transition-all">Contact</a>
@@ -209,6 +210,7 @@
         <div id="mobile-menu" class="hidden lg:hidden border-t border-accent/10 bg-white/95 px-4 sm:px-6 pb-6">
             <div class="flex flex-col gap-4 pt-5 text-xs font-bold uppercase tracking-[0.2em] text-accent/70">
                 <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-brand' : 'hover:text-brand' }} transition-colors">Home</a>
+                <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'text-brand' : 'hover:text-brand' }} transition-colors">About</a>
                 <a href="{{ route('team') }}" class="{{ request()->routeIs('team') ? 'text-brand' : 'hover:text-brand' }} transition-colors">Our Team</a>
                 <a href="{{ route('donate') }}" class="{{ request()->routeIs('donate') ? 'text-brand' : 'hover:text-brand' }} transition-colors">Donations</a>
                 <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'text-brand' : 'hover:text-brand' }} transition-colors">Contact</a>
@@ -228,6 +230,7 @@
                 <!-- Links - Left -->
                 <div class="flex flex-col gap-4 text-xs font-bold uppercase tracking-[0.2em]">
                     <a href="{{ route('home') }}" class="text-white/50 hover:text-brand transition-colors">Home</a>
+                    <a href="{{ route('about') }}" class="text-white/50 hover:text-brand transition-colors">About</a>
                     <a href="{{ route('team') }}" class="text-white/50 hover:text-brand transition-colors">Our Team</a>
                     <a href="{{ route('donate') }}" class="text-white/50 hover:text-brand transition-colors">Donate</a>
                     <a href="{{ route('contact') }}" class="text-white/50 hover:text-brand transition-colors">Contact</a>

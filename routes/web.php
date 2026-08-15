@@ -54,6 +54,12 @@ Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
     // Team Members
     Route::resource('team', \App\Http\Controllers\Admin\TeamController::class);
 
+    // About Us Page
+Route::get('/about', [\App\Http\Controllers\Admin\AboutController::class, 'index'])->name('about.index');
+Route::post('/about', [\App\Http\Controllers\Admin\AboutController::class, 'update'])->name('about.update');
+Route::post('/about/videos', [\App\Http\Controllers\Admin\AboutController::class, 'storeVideo'])->name('about.videos.store');
+Route::delete('/about/videos/{video}', [\App\Http\Controllers\Admin\AboutController::class, 'destroyVideo'])->name('about.videos.destroy');
+
     // Contact Messages
     Route::get('/contacts', [ContactController::class, 'index'])->name('contacts');
     Route::delete('/contacts/{contact}', [ContactController::class, 'destroy'])->name('contacts.destroy');
