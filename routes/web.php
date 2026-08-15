@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/news', [PageController::class, 'news'])->name('news');
 Route::get('/donate', [PageController::class, 'donate'])->name('donate');
-Route::get('/team', [PageController::class, 'team'])->name('team');
+Route::get('/our-team', [PageController::class, 'ourTeam'])->name('our-team');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 Route::post('/contact/send', [PageController::class, 'contactSend'])->name('contact.send');
 Route::get('/progress', [PageController::class, 'progress'])->name('progress');
@@ -52,7 +52,7 @@ Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
     Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update');
 
     // Team Members
-    Route::resource('team', \App\Http\Controllers\Admin\TeamController::class);
+    Route::resource('our team', \App\Http\Controllers\Admin\TeamController::class);
 
     // Contact Messages
     Route::get('/contacts', [ContactController::class, 'index'])->name('contacts');
