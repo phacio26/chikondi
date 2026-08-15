@@ -101,6 +101,56 @@
                 max-height: 400px;
             }
         }
+
+        /* Back to Top Button */
+        #back-to-top {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            z-index: 90;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 9999px;
+            background: #1E293B;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px -5px rgba(30, 41, 59, 0.35);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(16px) scale(0.9);
+            transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                        transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                        background-color 0.25s ease,
+                        box-shadow 0.25s ease;
+        }
+        #back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+        #back-to-top:hover {
+            background: #DC2626;
+            box-shadow: 0 12px 28px -6px rgba(220, 38, 38, 0.45);
+            transform: translateY(-3px) scale(1.04);
+        }
+        #back-to-top svg {
+            width: 1.25rem;
+            height: 1.25rem;
+            transition: transform 0.25s ease;
+        }
+        #back-to-top:hover svg {
+            transform: translateY(-2px);
+        }
+        @media (max-width: 640px) {
+            #back-to-top {
+                bottom: 1.25rem;
+                right: 1.25rem;
+                width: 2.75rem;
+                height: 2.75rem;
+            }
+        }
     </style>
 
     @yield('extra_styles')
@@ -178,6 +228,13 @@
         <div class="absolute bottom-0 right-0 w-[500px] h-[500px] bg-brand/5 rounded-full blur-[100px] translate-x-1/3 translate-y-1/3"></div>
     </footer>
 
+    <!-- Back to Top Button -->
+    <button id="back-to-top" aria-label="Back to top" type="button">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7" />
+        </svg>
+    </button>
+
     <script>
         const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
         const mobileMenu = document.getElementById('mobile-menu');
@@ -201,6 +258,25 @@
         document.querySelectorAll('.scroll-reveal').forEach(el => {
             observer.observe(el);
         });
+
+        // Back to Top button behavior
+        const backToTopBtn = document.getElementById('back-to-top');
+        if (backToTopBtn) {
+            const toggleBackToTop = () => {
+                if (window.scrollY > 400) {
+                    backToTopBtn.classList.add('show');
+                } else {
+                    backToTopBtn.classList.remove('show');
+                }
+            };
+
+            window.addEventListener('scroll', toggleBackToTop, { passive: true });
+            toggleBackToTop();
+
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
     </script>
 
     @yield('extra_scripts')
