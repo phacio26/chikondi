@@ -42,7 +42,8 @@ class AboutController extends Controller
     }
 
     public function storeVideo(Request $request)
-    {
+{
+    try {
         $request->validate([
             'title' => 'required|string|max:255',
             'video' => 'required|mimes:mp4,mov,avi,webm|max:51200', // 50MB
@@ -50,10 +51,15 @@ class AboutController extends Controller
 
         $cloudName = 'dtayyciom';
         $uploadPreset = 'chikondi_preset';
-
         $file = $request->file('video');
 
-        // Video uploads use a different Cloudinary endpoint than images
+        // Log file info
+        \Log::info('Attempting video upload', [
+            'filename' => $file->getClientOriginalName(),
+            'size' => $file->getSize(),
+            'mime' => $file->getMimeType()
+        ]);
+
         $url = "https://api.cloudinary.com/v1_1/{$cloudName}/video/upload";
 
         $curl = curl_init();
@@ -70,29 +76,54 @@ class AboutController extends Controller
         ]);
 
         $response = curl_exec($curl);
+        $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         $error = curl_error($curl);
         curl_close($curl);
 
+        // Log the response
+        \Log::info('Cloudinary response', [
+            'http_code' => $httpCode,
+            'response' => $response
+        ]);
+
         if ($error) {
             \Log::error("Cloudinary video upload error: " . $error);
-            return back()->with('error', 'Video upload failed. Please try again.');
+            return back()->with('error', 'Upload failed: ' . $error);
         }
 
         $result = json_decode($response, true);
 
-        if (!isset($result['secure_url'])) {
-            \Log::error("Cloudinary video upload failed: " . $response);
-            return back()->with('error', 'Video upload failed. Please try again.');
+        // Check for Cloudinary error
+        if (isset($result['error'])) {
+            $errorMsg = $result['error']['message'] ?? 'Unknown Cloudinary error';
+            \Log::error("Cloudinary error: " . $errorMsg);
+            return back()->with('error', 'Cloudinary error: ' . $errorMsg);
         }
 
-        AboutVideo::create([
-            'title' => $request->title,
-            'url' => $result['secure_url'],
-        ]);
+        if (!isset($result['secure_url'])) {
+            \Log::error("Cloudinary upload failed. Response: " . $response);
+            return back()->with('error', 'Upload failed - no URL returned');
+        }
 
-        return back()->with('success', 'Video uploaded successfully.');
+        // Try to save to database
+        try {
+            AboutVideo::create([
+                'title' => $request->title,
+                'url' => $result['secure_url'],
+            ]);
+            return back()->with('success', 'Video uploaded successfully!');
+        } catch (\Exception $dbError) {
+            \Log::error('Database save failed: ' . $dbError->getMessage());
+            return back()->with('warning', 'Video uploaded to Cloudinary but failed to save to database: ' . $dbError->getMessage());
+        }
+
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        return back()->withErrors($e->errors())->withInput();
+    } catch (\Exception $e) {
+        \Log::error('Upload exception: ' . $e->getMessage());
+        return back()->with('error', 'Upload failed: ' . $e->getMessage());
     }
-
+}
     public function destroyVideo(AboutVideo $video)
     {
         $video->delete();
