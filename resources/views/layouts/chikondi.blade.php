@@ -228,7 +228,7 @@
                 <!-- Links - Left -->
                 <div class="flex flex-col gap-4 text-xs font-bold uppercase tracking-[0.2em]">
                     <a href="{{ route('home') }}" class="text-white/50 hover:text-brand transition-colors">Home</a>
-                    <a href="{{ route('team') }}" class="text-white/50 hover:text-brand transition-colors">Team</a>
+                    <a href="{{ route('our team') }}" class="text-white/50 hover:text-brand transition-colors">Team</a>
                     <a href="{{ route('donate') }}" class="text-white/50 hover:text-brand transition-colors">Donate</a>
                     <a href="{{ route('contact') }}" class="text-white/50 hover:text-brand transition-colors">Contact</a>
                 </div>
