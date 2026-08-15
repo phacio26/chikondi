@@ -4,16 +4,9 @@
 
 @section('content')
 
-<div class="relative bg-gradient-to-r from-accent to-accent/80 text-white overflow-hidden py-20 md:py-28">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 text-center">
-        <h1 class="font-display text-4xl sm:text-5xl md:text-6xl font-black mb-6">
-            Meet the <span class="text-brand">Team</span>
-        </h1>
-        <p class="text-base sm:text-lg text-white/80 max-w-2xl mx-auto">
-            The people behind Chikondi Organisation's mission.
-        </p>
-    </div>
-</div>
+<x-wave-hero subtitle="The people behind Chikondi Organisation's mission.">
+    Meet the <span class="text-brand">Team</span>
+</x-wave-hero>
 
 <main class="py-16 md:py-24">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
@@ -83,7 +76,6 @@
         }
     }
 
-    // Hide "Show more" button on load if bio content is short enough to not need it
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('[id^="bio-"]').forEach(function (bio) {
             const id = bio.id.replace('bio-', '');

@@ -47,18 +47,9 @@
 @endphp
 
     <!-- 1. Hero / Opening Statement -->
-    <div class="relative bg-gradient-to-r from-accent to-accent/80 text-white overflow-hidden py-20 md:py-28">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 text-center">
-            <h1 class="font-display text-4xl sm:text-5xl md:text-6xl font-black mb-6">
-                {{ $about->hero_heading ?: 'Our Story' }}
-            </h1>
-            @if($about->hero_subheading)
-            <p class="text-base sm:text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
-                {{ $about->hero_subheading }}
-            </p>
-            @endif
-        </div>
-    </div>
+    <x-wave-hero :subtitle="$about->hero_subheading">
+        {{ $about->hero_heading ?: 'Our Story' }}
+    </x-wave-hero>
 
     <main class="py-16 md:py-24">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 space-y-20 md:space-y-28">

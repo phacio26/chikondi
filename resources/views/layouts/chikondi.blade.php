@@ -173,7 +173,102 @@
                 height: 3rem;
             }
         }
+        /* Wave Hero (shared component) */
+        .wave-bg {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+        .wave-bg svg {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            min-height: 300px;
+        }
+        .wave-1 {
+            animation: waveFlow1 6s ease-in-out infinite;
+            transform-origin: center;
+        }
+        @keyframes waveFlow1 {
+            0% { transform: translateX(0) translateY(0); }
+            25% { transform: translateX(-3%) translateY(2%); }
+            50% { transform: translateX(0) translateY(4%); }
+            75% { transform: translateX(3%) translateY(2%); }
+            100% { transform: translateX(0) translateY(0); }
+        }
+        .wave-2 {
+            animation: waveFlow2 8s ease-in-out infinite;
+            transform-origin: center;
+        }
+        @keyframes waveFlow2 {
+            0% { transform: translateX(0) translateY(0); }
+            25% { transform: translateX(4%) translateY(-2%); }
+            50% { transform: translateX(0) translateY(-4%); }
+            75% { transform: translateX(-4%) translateY(-2%); }
+            100% { transform: translateX(0) translateY(0); }
+        }
+        .wave-3 {
+            animation: waveFlow3 12s ease-in-out infinite;
+            transform-origin: center;
+        }
+        @keyframes waveFlow3 {
+            0% { transform: translateX(0) translateY(0); }
+            33% { transform: translateX(-2%) translateY(1%); }
+            66% { transform: translateX(2%) translateY(-1%); }
+            100% { transform: translateX(0) translateY(0); }
+        }
+        .water-particle {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 80%, rgba(220,38,38,0.08) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 1;
+            animation: particleShift 15s ease-in-out infinite;
+        }
+        @keyframes particleShift {
+            0% { opacity: 0.3; transform: translateX(0); }
+            50% { opacity: 0.6; transform: translateX(2%); }
+            100% { opacity: 0.3; transform: translateX(0); }
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        .zoom-spin-in {
+            animation: zoomSpinFade 0.8s cubic-bezier(0.34, 1.2, 0.64, 1) forwards;
+        }
+        @keyframes zoomSpinFade {
+            0% {
+                opacity: 0;
+                transform: scale(0.7) rotate(-8deg);
+                filter: blur(6px);
+            }
+            40% {
+                filter: blur(2px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+                filter: blur(0);
+            }
+        }
+        .zoom-spin-in-delayed {
+            animation: zoomSpinFade 0.8s cubic-bezier(0.34, 1.2, 0.64, 1) forwards;
+            animation-delay: 0.2s;
+            opacity: 0;
+            transform: scale(0.7) rotate(-8deg);
+        }
     </style>
+
 
     @yield('extra_styles')
 </head>
@@ -191,7 +286,7 @@
 
                 <div class="hidden lg:flex items-center space-x-10 text-[11px] font-bold uppercase tracking-[0.2em] text-accent/60">
                     <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-brand border-b-2 border-brand pb-1' : 'hover:text-brand' }} transition-all">Home</a>
-                    <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'text-brand border-b-2 border-brand pb-1' : 'hover:text-brand' }} transition-all">About</a>
+                    <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'text-brand border-b-2 border-brand pb-1' : 'hover:text-brand' }} transition-all">About Us</a>
                     <a href="{{ route('team') }}" class="{{ request()->routeIs('team') ? 'text-brand border-b-2 border-brand pb-1' : 'hover:text-brand' }} transition-all">Our Team</a>
                     <a href="{{ route('donate') }}" class="{{ request()->routeIs('donate') ? 'text-brand border-b-2 border-brand pb-1' : 'hover:text-brand' }} transition-all">Donations</a>
                     <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'text-brand border-b-2 border-brand pb-1' : 'hover:text-brand' }} transition-all">Contact</a>
@@ -210,7 +305,7 @@
         <div id="mobile-menu" class="hidden lg:hidden border-t border-accent/10 bg-white/95 px-4 sm:px-6 pb-6">
             <div class="flex flex-col gap-4 pt-5 text-xs font-bold uppercase tracking-[0.2em] text-accent/70">
                 <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-brand' : 'hover:text-brand' }} transition-colors">Home</a>
-                <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'text-brand' : 'hover:text-brand' }} transition-colors">About</a>
+                <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'text-brand' : 'hover:text-brand' }} transition-colors">About Us</a>
                 <a href="{{ route('team') }}" class="{{ request()->routeIs('team') ? 'text-brand' : 'hover:text-brand' }} transition-colors">Our Team</a>
                 <a href="{{ route('donate') }}" class="{{ request()->routeIs('donate') ? 'text-brand' : 'hover:text-brand' }} transition-colors">Donations</a>
                 <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'text-brand' : 'hover:text-brand' }} transition-colors">Contact</a>
@@ -230,7 +325,7 @@
                 <!-- Links - Left -->
                 <div class="flex flex-col gap-4 text-xs font-bold uppercase tracking-[0.2em]">
                     <a href="{{ route('home') }}" class="text-white/50 hover:text-brand transition-colors">Home</a>
-                    <a href="{{ route('about') }}" class="text-white/50 hover:text-brand transition-colors">About</a>
+                    <a href="{{ route('about') }}" class="text-white/50 hover:text-brand transition-colors">About Us</a>
                     <a href="{{ route('team') }}" class="text-white/50 hover:text-brand transition-colors">Our Team</a>
                     <a href="{{ route('donate') }}" class="text-white/50 hover:text-brand transition-colors">Donate</a>
                     <a href="{{ route('contact') }}" class="text-white/50 hover:text-brand transition-colors">Contact</a>
