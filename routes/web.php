@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/news', [PageController::class, 'news'])->name('news');
 Route::get('/donate', [PageController::class, 'donate'])->name('donate');
+Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::get('/our-team', [PageController::class, 'team'])->name('team');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 Route::post('/contact/send', [PageController::class, 'contactSend'])->name('contact.send');
