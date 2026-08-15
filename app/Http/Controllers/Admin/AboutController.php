@@ -9,9 +9,6 @@ use Illuminate\Http\Request;
 
 class AboutController extends Controller
 {
-    /**
-     * Show the admin About Us management screen (page content + videos).
-     */
     public function index()
     {
         $about = AboutPage::getInstance();
@@ -20,62 +17,54 @@ class AboutController extends Controller
         return view('admin.about.index', compact('about', 'videos'));
     }
 
-    /**
-     * Update the About Us page text content.
-     */
     public function update(Request $request)
     {
-        set_time_limit(300);
-
         $validated = $request->validate([
-            'hero_heading'    => 'nullable|string|max:150',
-            'hero_subheading' => 'nullable|string|max:500',
-            'story'           => 'nullable|string|max:4000',
-            'problem'         => 'nullable|string|max:4000',
-            'mission'         => 'nullable|string|max:500',
-            'vision'          => 'nullable|string|max:500',
-            'values'          => 'nullable|string|max:2000',
-            'building'        => 'nullable|string|max:2000',
-            'impact'          => 'nullable|string|max:2000',
-            'testimonial'     => 'nullable|string|max:1000',
-            'team_teaser'     => 'nullable|string|max:500',
-            'cta_heading'     => 'nullable|string|max:150',
-            'cta_text'        => 'nullable|string|max:500',
+            'hero_heading' => 'nullable|string|max:255',
+            'hero_subheading' => 'nullable|string',
+            'story' => 'nullable|string',
+            'problem' => 'nullable|string',
+            'mission' => 'nullable|string',
+            'vision' => 'nullable|string',
+            'values' => 'nullable|string',
+            'building' => 'nullable|string',
+            'impact' => 'nullable|string',
+            'testimonial' => 'nullable|string',
+            'team_teaser' => 'nullable|string',
+            'cta_heading' => 'nullable|string|max:255',
+            'cta_text' => 'nullable|string',
         ]);
 
         $about = AboutPage::getInstance();
         $about->update($validated);
 
-        return redirect()->route('admin.about.index')->with('success', 'About Us page updated successfully.');
+        return back()->with('success', 'About page updated successfully.');
     }
 
-    /**
-     * Upload a new video for the About Us page.
-     */
     public function storeVideo(Request $request)
     {
-        set_time_limit(300);
-
         $request->validate([
-            'title' => 'required|string|max:150',
-            'video' => 'required|file|mimetypes:video/mp4,video/quicktime,video/x-msvideo,video/webm|max:51200', // 50MB
+            'title' => 'required|string|max:255',
+            'video' => 'required|mimes:mp4,mov,avi,webm|max:51200', // 50MB
         ]);
 
-        $file = $request->file('video');
-
-        // Upload to Cloudinary as a video resource
         $cloudName = 'dtayyciom';
         $uploadPreset = 'chikondi_preset';
 
+        $file = $request->file('video');
+
+        // Video uploads use a different Cloudinary endpoint than images
+        $url = "https://api.cloudinary.com/v1_1/{$cloudName}/video/upload";
+
         $curl = curl_init();
         curl_setopt_array($curl, [
-            CURLOPT_URL => "https://api.cloudinary.com/v1_1/{$cloudName}/video/upload",
+            CURLOPT_URL => $url,
             CURLOPT_POST => true,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_POSTFIELDS => [
                 'file' => curl_file_create($file->getRealPath(), $file->getMimeType(), $file->getClientOriginalName()),
                 'upload_preset' => $uploadPreset,
-                'folder' => 'chikondi/about_videos',
+                'folder' => 'chikondi/about-videos',
             ],
             CURLOPT_TIMEOUT => 300,
         ]);
@@ -86,34 +75,28 @@ class AboutController extends Controller
 
         if ($error) {
             \Log::error("Cloudinary video upload error: " . $error);
-            return redirect()->route('admin.about.index')->with('error', 'Video upload failed. Please try again.');
+            return back()->with('error', 'Video upload failed. Please try again.');
         }
 
         $result = json_decode($response, true);
 
         if (!isset($result['secure_url'])) {
-            \Log::error("Cloudinary video upload response missing secure_url: " . $response);
-            return redirect()->route('admin.about.index')->with('error', 'Video upload failed. Please try again.');
+            \Log::error("Cloudinary video upload failed: " . $response);
+            return back()->with('error', 'Video upload failed. Please try again.');
         }
 
-        $maxOrder = AboutVideo::max('order') ?? 0;
-
         AboutVideo::create([
-            'title' => $request->input('title'),
-            'url'   => $result['secure_url'],
-            'order' => $maxOrder + 1,
+            'title' => $request->title,
+            'url' => $result['secure_url'],
         ]);
 
-        return redirect()->route('admin.about.index')->with('success', 'Video uploaded successfully.');
+        return back()->with('success', 'Video uploaded successfully.');
     }
 
-    /**
-     * Delete a video from the About Us page.
-     */
     public function destroyVideo(AboutVideo $video)
     {
         $video->delete();
 
-        return redirect()->route('admin.about.index')->with('success', 'Video removed.');
+        return back()->with('success', 'Video removed.');
     }
 }

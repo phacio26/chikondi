@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Contact;
 use App\Models\TeamMember;
+use App\Models\AboutPage;
+use App\Models\AboutVideo;
 
 class PageController extends Controller
 {
@@ -84,5 +86,13 @@ class PageController extends Controller
     {
         $teamMembers = TeamMember::orderBy('order')->orderBy('created_at', 'desc')->get();
         return view('pages.team', compact('teamMembers'));
+    }
+
+    public function about()
+    {
+        $about = AboutPage::first();
+        $videos = AboutVideo::orderBy('created_at', 'desc')->get();
+
+        return view('pages.about', compact('about', 'videos'));
     }
 }
