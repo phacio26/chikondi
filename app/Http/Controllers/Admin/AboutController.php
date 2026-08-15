@@ -40,13 +40,12 @@ class AboutController extends Controller
 
         return back()->with('success', 'About page updated successfully.');
     }
-
-    public function storeVideo(Request $request)
+public function storeVideo(Request $request)
 {
     try {
         $request->validate([
             'title' => 'required|string|max:255',
-            'video' => 'required|mimes:mp4,mov,avi,webm|max:51200', // 50MB
+            'video' => 'required|mimes:mp4,mov,avi,webm|max:102400', // Changed to 100MB
         ]);
 
         $cloudName = 'dtayyciom';
