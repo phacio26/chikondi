@@ -102,14 +102,45 @@
             }
         }
 
-        /* Back to Top Button */
-        #back-to-top {
+        /* Back to Top Button with Scroll Progress Ring */
+        #back-to-top-wrapper {
             position: fixed;
             bottom: 1.5rem;
             right: 1.5rem;
             z-index: 90;
-            width: 3rem;
-            height: 3rem;
+            width: 3.25rem;
+            height: 3.25rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(16px) scale(0.9);
+            transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                        transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        #back-to-top-wrapper.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+        #back-to-top-progress {
+            position: absolute;
+            inset: 0;
+            transform: rotate(-90deg);
+        }
+        #back-to-top-progress circle {
+            fill: none;
+            stroke-width: 3;
+        }
+        #back-to-top-progress .track {
+            stroke: rgba(30, 41, 59, 0.12);
+        }
+        #back-to-top-progress .fill {
+            stroke: #DC2626;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.1s linear;
+        }
+        #back-to-top {
+            position: absolute;
+            inset: 5px;
             border-radius: 9999px;
             background: #1E293B;
             color: #ffffff;
@@ -117,38 +148,29 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 10px 25px -5px rgba(30, 41, 59, 0.35);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(16px) scale(0.9);
-            transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-                        transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-                        background-color 0.25s ease,
-                        box-shadow 0.25s ease;
+            transition: background-color 0.25s ease,
+                        box-shadow 0.25s ease,
+                        transform 0.25s ease;
         }
-        #back-to-top.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0) scale(1);
-        }
-        #back-to-top:hover {
+        #back-to-top-wrapper:hover #back-to-top {
             background: #DC2626;
             box-shadow: 0 12px 28px -6px rgba(220, 38, 38, 0.45);
-            transform: translateY(-3px) scale(1.04);
+            transform: scale(1.05);
         }
         #back-to-top svg {
-            width: 1.25rem;
-            height: 1.25rem;
+            width: 1.15rem;
+            height: 1.15rem;
             transition: transform 0.25s ease;
         }
-        #back-to-top:hover svg {
+        #back-to-top-wrapper:hover #back-to-top svg {
             transform: translateY(-2px);
         }
         @media (max-width: 640px) {
-            #back-to-top {
+            #back-to-top-wrapper {
                 bottom: 1.25rem;
                 right: 1.25rem;
-                width: 2.75rem;
-                height: 2.75rem;
+                width: 3rem;
+                height: 3rem;
             }
         }
     </style>
@@ -228,12 +250,18 @@
         <div class="absolute bottom-0 right-0 w-[500px] h-[500px] bg-brand/5 rounded-full blur-[100px] translate-x-1/3 translate-y-1/3"></div>
     </footer>
 
-    <!-- Back to Top Button -->
-    <button id="back-to-top" aria-label="Back to top" type="button">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7" />
+    <!-- Back to Top Button with Scroll Progress Ring -->
+    <div id="back-to-top-wrapper">
+        <svg id="back-to-top-progress" viewBox="0 0 52 52">
+            <circle class="track" cx="26" cy="26" r="23"></circle>
+            <circle class="fill" cx="26" cy="26" r="23" stroke-dasharray="144.5" stroke-dashoffset="144.5"></circle>
         </svg>
-    </button>
+        <button id="back-to-top" aria-label="Back to top" type="button">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7" />
+            </svg>
+        </button>
+    </div>
 
     <script>
         const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
@@ -259,19 +287,30 @@
             observer.observe(el);
         });
 
-        // Back to Top button behavior
+        // Back to Top button with scroll progress ring
+        const backToTopWrapper = document.getElementById('back-to-top-wrapper');
         const backToTopBtn = document.getElementById('back-to-top');
-        if (backToTopBtn) {
-            const toggleBackToTop = () => {
-                if (window.scrollY > 400) {
-                    backToTopBtn.classList.add('show');
+        const progressCircle = document.querySelector('#back-to-top-progress .fill');
+        const CIRCUMFERENCE = 144.5;
+
+        if (backToTopWrapper && backToTopBtn && progressCircle) {
+            const updateBackToTop = () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const progress = docHeight > 0 ? Math.min(scrollTop / docHeight, 1) : 0;
+
+                progressCircle.style.strokeDashoffset = CIRCUMFERENCE - (progress * CIRCUMFERENCE);
+
+                if (scrollTop > 400) {
+                    backToTopWrapper.classList.add('show');
                 } else {
-                    backToTopBtn.classList.remove('show');
+                    backToTopWrapper.classList.remove('show');
                 }
             };
 
-            window.addEventListener('scroll', toggleBackToTop, { passive: true });
-            toggleBackToTop();
+            window.addEventListener('scroll', updateBackToTop, { passive: true });
+            window.addEventListener('resize', updateBackToTop);
+            updateBackToTop();
 
             backToTopBtn.addEventListener('click', () => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
